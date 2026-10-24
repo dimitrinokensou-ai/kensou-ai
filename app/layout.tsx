@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: "Kensou AI",
+  title: "Kensou AI | L’intelligence à vos côtés.",
   description: "Kensou AI — L’intelligence à vos côtés.",
 };
 export default function RootLayout({ children }: LayoutProps<"/">) {
