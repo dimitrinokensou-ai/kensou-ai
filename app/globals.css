@@ -1,0 +1,3753 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #020b17;
+  color: #f4f7fb;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  min-height: 560px;
+  display: flex;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 42%, rgba(18, 67, 125, 0.11), transparent 34%),
+    #020b17;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  width: 300px;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #06111f;
+  border-right: 1px solid rgba(112, 151, 205, 0.18);
+  transition: width 0.22s ease, opacity 0.22s ease;
+  overflow: hidden;
+}
+
+.sidebar-closed {
+  width: 0;
+  border-right: 0;
+}
+
+.sidebar-content {
+  padding: 18px 18px 0;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 24px;
+}
+
+.sidebar-brand-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 14px;
+  background: #000;
+}
+
+.sidebar-brand-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sidebar-brand-subtitle {
+  margin-top: 3px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #9aa8bc;
+}
+
+.new-chat {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #1677ff, #0956c9);
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 88, 210, 0.2);
+}
+
+.new-chat:hover {
+  filter: brightness(1.08);
+}
+
+.new-chat-icon {
+  font-size: 20px;
+}
+
+
+.sidebar-separator {
+  width: 100%;
+  height: 1px;
+  margin: 18px 0 2px;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.sidebar-section {
+  margin-top: 14px;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  color: #9aa8ba;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.dots-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  color: #91a1b6;
+  background: transparent;
+  cursor: pointer;
+}
+
+.dots-button:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.divers-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.divers-menu button {
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: #c4cfdf;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.divers-menu button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.history-section {
+  margin-top: 26px;
+}
+
+.empty-history {
+  margin-top: 12px;
+  padding: 12px 2px;
+  color: #64738a;
+  font-size: 13px;
+}
+
+/* PROFIL EN BAS DE LA BARRE LATERALE */
+
+.sidebar-bottom {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.profile-button {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(90, 148, 255, 0.65);
+  cursor: pointer;
+}
+
+.profile-button:hover {
+  border-color: #5794ff;
+  box-shadow: 0 0 12px rgba(45, 130, 245, 0.2);
+}
+
+.profile-avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-avatar-letter {
+  display: flex;
+align-items: center;
+justify-content: center;
+color: #82b4ff;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.profile-name {
+  overflow: hidden;
+  color: #e8eef8;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-menu {
+  position: absolute;
+  left: 14px;
+  bottom: calc(100% + 10px);
+  z-index: 200;
+  width: 250px;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid #287cf0;
+  border-radius: 15px;
+  background: #091525;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5);
+}
+
+.profile-menu-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 0 16px;
+  text-align: center;
+}
+
+.profile-menu-header .profile-avatar,
+.profile-menu-header .profile-avatar-letter {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  box-sizing: border-box;
+  border: 1px solid #4388ff;
+}
+
+.profile-menu-user {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.profile-menu-user strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: #fff;
+  font-size: 14px;
+}
+
+.profile-menu-user span {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: #9eacc0;
+  font-size: 12px;
+}
+
+.profile-menu-item {
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #287cf0;
+  border-radius: 9px;
+  color: #dce7f7;
+  background: rgba(18, 104, 223, 0.08);
+  text-align: left;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.profile-menu-item:hover {
+  background: rgba(18, 104, 223, 0.2);
+  border-color: #65a2ff;
+}
+
+
+.logout-item {
+  justify-content: center;
+  margin-top: 8px;
+  border-color: #287cf0;
+  color: #fff;
+  background: rgba(18, 104, 223, 0.1);
+}
+
+.logout-item:hover {
+  border-color: #65a2ff;
+  background: rgba(18, 104, 223, 0.25);
+}
+
+.login-button {
+  flex: 1;
+  height: 40px;
+  border-radius: 10px;
+  color: #fff;
+  background: #1268df;
+  border: 1px solid #2d82f5;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(18, 104, 223, 0.22);
+}
+
+.login-button:hover {
+  color: #fff;
+  background: #1978f5;
+  border-color: #5aa0ff;
+  box-shadow: 0 8px 22px rgba(18, 104, 223, 0.32);
+}
+
+/* MAIN */
+
+.main-area {
+  min-width: 0;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  position: relative;
+  height: 64px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+}
+
+.topbar-left {
+  position: absolute;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+}
+
+.topbar-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  color: #a8b5c8;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.topbar-button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.top-mode-selector {
+  height: 42px;
+  min-width: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 14px;
+  border: 1px solid rgba(76, 148, 239, 0.34);
+  border-radius: 13px;
+  color: #e8f1ff;
+  background: rgba(7, 24, 42, 0.86);
+  cursor: pointer;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.16);
+}
+
+.top-mode-selector:hover {
+  border-color: #5794ff;
+  background: rgba(13, 42, 72, 0.95);
+}
+
+.top-mode-icon {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #86b6ff;
+}
+
+.top-mode-icon .mode-real-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.top-mode-arrow {
+  color: #7e91aa;
+  font-size: 16px;
+  margin-left: 3px;
+}
+
+.top-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+.top-online {
+  position: absolute;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #aebbcf;
+  font-size: 12px;
+}
+
+.top-online-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #45d483;
+  box-shadow: 0 0 10px rgba(69, 212, 131, 0.6);
+}
+
+.search-panel {
+  position: absolute;
+  top: 72px;
+  right: 22px;
+  z-index: 50;
+  width: min(390px, calc(100vw - 40px));
+  padding: 12px;
+  border: 1px solid rgba(130, 170, 255, 0.2);
+  border-radius: 14px;
+  background: #091522;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+
+.search-panel input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9px;
+  outline: none;
+  color: #fff;
+  background: #050e19;
+}
+
+.search-panel input:focus {
+  border-color: #5794ff;
+}
+
+.search-result {
+  padding: 12px 2px 2px;
+  color: #7f8da2;
+  font-size: 12px;
+}
+
+/* CONTENT */
+
+.content {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px 86px;
+}
+
+.welcome {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.welcome-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+
+.welcome h1 {
+  margin: 0;
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.welcome p {
+  max-width: 600px;
+  margin: 10px 0 0;
+  color: #8997aa;
+  font-size: 14px;
+}
+
+.messages {
+  width: min(780px, 100%);
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+  padding: 10px 0 140px;
+}
+
+.message {
+  width: fit-content;
+  max-width: 78%;
+  margin: 10px 0;
+  padding: 11px 14px;
+  border-radius: 14px;
+  line-height: 1.45;
+  font-size: 14px;
+}
+
+.user-message {
+  margin-left: auto;
+  color: #fff;
+  background: #135fc8;
+}
+
+.assistant-message {
+  margin-right: auto;
+  color: #d6deea;
+  background: #0c1827;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* COMPOSER */
+
+.composer-zone {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: min(780px, calc(100% - 48px));
+  transform: translateX(-50%);
+}
+
+.composer {
+  position: relative;
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid rgba(75, 148, 238, 0.5);
+  border-radius: 22px;
+  background: linear-gradient(
+    135deg,
+    rgba(7, 27, 47, 0.98),
+    rgba(5, 20, 35, 0.98)
+  );
+  box-shadow:
+    0 12px 38px rgba(0, 0, 0, 0.3),
+    inset 0 0 22px rgba(24, 102, 188, 0.08);
+}
+
+.composer-button,
+.send-button,
+.composer-mode-selector {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.composer-button {
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: #b8cbe4;
+  background: transparent;
+}
+
+.composer-button svg {
+  display: block;
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.composer-button:hover {
+  color: #fff;
+  background: rgba(62, 127, 217, 0.18);
+}
+
+.message-input-wrapper {
+  min-width: 0;
+  min-height: 44px;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: transparent;
+}
+
+.message-input-wrapper textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  height: 44px;
+  max-height: 124px;
+  margin: 0;
+  padding: 12px 5px;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  resize: none;
+  overflow-y: hidden;
+  color: #eef5ff;
+  background: transparent;
+  box-shadow: none;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.message-input-wrapper textarea::placeholder {
+  color: #7890ad;
+  opacity: 1;
+}
+
+.voice-button {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(130, 170, 255, 0.35);
+  background: #202938;
+  color: #a9c8ff;
+  box-shadow: 0 0 0 3px rgba(70, 120, 220, 0.07);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.voice-button:hover {
+  background: #2b3b55;
+  border-color: #78a8ff;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.voice-button:active {
+  transform: scale(0.96);
+}
+
+.voice-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.send-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(145deg, #2a8cff, #0d69df);
+  box-shadow: 0 6px 18px rgba(20, 116, 238, 0.3);
+  font-size: 20px;
+}
+
+.send-button:hover:not(:disabled) {
+  transform: scale(1.04);
+  filter: brightness(1.08);
+}
+
+.send-button:disabled {
+  color: #7d8795;
+  background: #3a4350;
+  box-shadow: none;
+  cursor: default;
+  opacity: 0.9;
+}
+
+.composer-note {
+  margin-top: 7px;
+  padding-left: 4px;
+  color: #64758b;
+  font-size: 11px;
+}
+
+/* MENUS */
+
+.plus-menu,
+.mode-menu {
+  position: absolute;
+  z-index: 30;
+  bottom: calc(100% + 10px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: #0a1624;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+}
+
+.plus-menu {
+  left: 0;
+  width: 225px;
+  padding: 7px;
+  border-radius: 13px;
+}
+
+.plus-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px;
+  border-radius: 9px;
+  color: #c3cfdf;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.plus-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.plus-option input {
+  display: none;
+}
+
+.mode-menu {
+  left: 0;
+  width: 360px;
+  padding: 10px;
+  border-radius: 16px;
+}
+
+.mode-menu-title {
+  padding: 4px 7px 9px;
+  color: #718198;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.mode-card {
+  width: 100%;
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 11px;
+  margin: 0 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 13px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.025);
+  text-align: left;
+  cursor: pointer;
+}
+
+.mode-card:last-child {
+  margin-bottom: 0;
+}
+
+.mode-card:hover {
+  background: rgba(255, 255, 255, 0.065);
+  border-color: rgba(120, 168, 255, 0.45);
+}
+
+.mode-card.active {
+  border-color: #5794ff;
+  background: rgba(55, 107, 190, 0.22);
+  box-shadow:
+    0 0 0 2px rgba(87, 148, 255, 0.12),
+    0 0 18px rgba(55, 120, 255, 0.12);
+}
+
+.mode-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  color: #bdd4ff;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 19px;
+}
+
+.mode-card.active .mode-icon {
+  background: rgba(87, 148, 255, 0.18);
+}
+
+.mode-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mode-info strong {
+  font-size: 14px;
+  color: #fff;
+}
+
+.mode-info small {
+  color: #b7c4d6;
+  font-size: 12px;
+}
+
+.mode-info em {
+  color: #718198;
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1.35;
+}
+
+.mode-card.active .mode-info strong {
+  color: #8db8ff;
+}
+
+.mode-card.active .mode-info small,
+.mode-card.active .mode-info em {
+  color: #d4e2ff;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+  .sidebar {
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.4);
+  }
+
+  .sidebar-closed {
+    width: 0;
+  }
+
+  .composer-zone {
+    width: calc(100% - 24px);
+  }
+
+  .top-mode-menu {
+    width: min(360px, calc(100vw - 24px));
+  }
+
+  .welcome h1 {
+    font-size: 25px;
+  }
+
+  .welcome p {
+    font-size: 13px;
+  }
+
+  .composer-note {
+    text-align: center;
+  }
+
+  .top-online {
+    right: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .top-online span:last-child {
+    display: none;
+  }
+  .composer {
+    gap: 4px;
+    border-radius: 19px;
+  }
+
+  .voice-button {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+  }
+
+  .send-button {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Kensou composer and active-mode polish */
+.active-mode-display {
+  width: min(420px, 100%);
+  justify-content: center;
+  margin: 22px auto 0;
+  padding: 15px 12px 0;
+  border-top: 1px solid rgba(126, 164, 215, 0.16);
+}
+
+.active-mode-copy {
+  text-align: left;
+}
+
+.composer-zone {
+  width: min(820px, calc(100% - 48px));
+  bottom: 22px;
+  isolation: isolate;
+}
+
+.composer {
+  width: 100%;
+  min-height: 72px;
+  gap: 8px;
+  padding: 9px 10px;
+  align-items: center;
+  border-radius: 23px;
+}
+
+.composer .plus-button {
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+.composer .composer-mode-selector {
+  height: 43px;
+  max-width: 130px;
+  min-width: 112px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 10px;
+  border: 1px solid rgba(92, 145, 210, 0.28);
+  border-radius: 13px;
+  color: #c8d9ef;
+  background: rgba(15, 39, 63, 0.74);
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.composer .composer-mode-selector:hover,
+.composer .composer-mode-selector[aria-expanded="true"] {
+  color: #fff;
+  border-color: rgba(91, 160, 255, 0.65);
+  background: rgba(17, 55, 92, 0.92);
+}
+
+.composer-mode-icon {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #8dbbff;
+}
+
+.composer-mode-icon .mode-real-icon {
+  width: 21px;
+  height: 21px;
+}
+
+.composer-mode-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composer-mode-chevron {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  fill: none;
+  stroke: #8da2bd;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.composer .voice-button {
+  width: 43px;
+  min-width: 43px;
+  height: 43px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(111, 163, 233, 0.35);
+  border-radius: 50%;
+  color: #a8ccff;
+  background: rgba(25, 48, 74, 0.8);
+  box-shadow: none;
+}
+
+.composer .send-button {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #2685fa;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(145deg, #2e94ff, #0868df);
+  box-shadow: 0 5px 15px rgba(12, 103, 222, 0.24);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.composer .send-button:disabled {
+  color: #9aa5b4;
+  border-color: #3b4656;
+  background: #343e4d;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.composer-mode-menu {
+  left: 52px;
+  bottom: calc(100% + 10px);
+  width: min(360px, calc(100vw - 60px));
+  max-height: min(460px, calc(100vh - 160px));
+  overflow-y: auto;
+}
+
+.mode-real-icon {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@media (max-width: 700px) {
+  .content { padding-left: 14px; padding-right: 14px; }
+  .composer-zone { width: calc(100% - 24px); }
+  .composer { gap: 5px; padding: 7px; }
+  .composer .plus-button { width: 36px; min-width: 36px; }
+  .composer .composer-mode-selector {
+    max-width: 104px;
+    min-width: 88px;
+    gap: 5px;
+    padding: 0 7px;
+  }
+  .composer .composer-mode-label { font-size: 11px; }
+  .composer .voice-button { width: 39px; min-width: 39px; height: 39px; }
+  .composer .send-button { width: 40px; min-width: 40px; height: 40px; }
+  .composer-mode-menu { left: 38px; }
+}
+
+@media (max-width: 430px) {
+  .composer { gap: 3px; padding: 6px; }
+  .composer .plus-button { width: 32px; min-width: 32px; }
+  .composer .composer-mode-selector {
+    min-width: 76px;
+    max-width: 86px;
+    gap: 4px;
+    padding: 0 5px;
+  }
+  .composer .composer-mode-chevron { display: none; }
+  .composer .voice-button { width: 36px; min-width: 36px; height: 36px; }
+  .composer .send-button { width: 38px; min-width: 38px; height: 38px; }
+  .composer .voice-svg { width: 20px; height: 20px; }
+}
+
+
+/* MODE ACTIF AU CENTRE DE L'ACCUEIL — texte uniquement */
+.active-mode-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 18px;
+  text-align: center;
+}
+
+.active-mode-display strong {
+  color: #f4f7fb;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.active-mode-display span {
+  color: #8d9bb0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+@media (max-width: 700px) {
+  .active-mode-display {
+    margin-top: 15px;
+  }
+
+  .active-mode-display strong {
+    font-size: 15px;
+  }
+
+  .active-mode-display span {
+    font-size: 12px;
+  }
+}
+
+/* Centre de l'accueil : un seul affichage du mode, sans logo */
+.active-mode-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 18px;
+  text-align: center;
+}
+
+.active-mode-display strong {
+  color: #f4f7fb;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.active-mode-display small {
+  color: #8d9bb0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.active-mode-icon,
+.active-mode-copy {
+  display: none !important;
+}
+/* ===== AUTHENTIFICATION ===== */
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 8, 20, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.auth-box {
+  position: relative;
+  width: 420px;
+  max-width: calc(100vw - 40px);
+  padding: 34px;
+  border: 1px solid rgba(80, 150, 255, 0.25);
+  border-radius: 22px;
+  background: #071426;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.55);
+}
+
+.auth-box h2 {
+  margin: 0 0 8px;
+  color: white;
+  font-size: 25px;
+}
+
+.auth-box p {
+  margin: 0 0 24px;
+  color: #91a4bd;
+}
+
+.auth-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  color: #91a4bd;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.auth-close:hover {
+  color: white;
+}
+
+.auth-box input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  padding: 13px 14px;
+  border: 1px solid #263c58;
+  border-radius: 11px;
+  outline: none;
+  background: #0b1b30;
+  color: white;
+  font-size: 14px;
+}
+
+.auth-box input:focus {
+  border-color: #3185ff;
+}
+
+.auth-box input::placeholder {
+  color: #71849c;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 6px;
+  padding: 13px;
+  border: 0;
+  border-radius: 11px;
+  background: #1677ff;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-submit:hover {
+  background: #318cff;
+}
+
+.auth-switch {
+  margin-top: 20px;
+  text-align: center;
+  color: #91a4bd;
+  font-size: 13px;
+}
+
+.auth-switch span {
+  color: #4b96ff;
+  cursor: pointer;
+}
+
+.auth-switch span:hover {
+  text-decoration: underline;
+}
+/* ===== CONNEXIONS SOCIALES ===== */
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.social-button {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 11px;
+  border: 1px solid #263c58;
+  background: #0b1b30;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.social-button:hover {
+  transform: translateY(-1px);
+}
+
+.google-button:hover {
+  background: #ffffff;
+  color: #202124;
+}
+
+.microsoft-button:hover {
+  background: #f2f2f2;
+  color: #111111;
+}
+
+.facebook-button:hover {
+  background: #1877f2;
+  border-color: #1877f2;
+  color: white;
+}
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.social-logo {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.google-logo {
+  font-family: Arial, sans-serif;
+  background: conic-gradient(
+    from -45deg,
+    #4285f4 0deg 90deg,
+    #34a853 90deg 180deg,
+    #fbbc05 180deg 270deg,
+    #ea4335 270deg 360deg
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.facebook-logo {
+  border-radius: 50%;
+  background: #1877f2;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+}
+
+.microsoft-logo {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+}
+
+.microsoft-logo span:nth-child(1) {
+  background: #f25022;
+}
+
+.microsoft-logo span:nth-child(2) {
+  background: #7fba00;
+}
+
+.microsoft-logo span:nth-child(3) {
+  background: #00a4ef;
+}
+
+.microsoft-logo span:nth-child(4) {
+  background: #ffb900;
+}
+.social-svg {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  display: block;
+}
+
+.google-svg {
+  width: 21px;
+  height: 21px;
+}
+
+.facebook-svg {
+  color: #1877f2;
+  width: 22px;
+  height: 22px;
+}
+
+.profile-menu-item:not(.logout-item) {
+  justify-content: center;
+  text-align: center;
+  border: 1px solid #287cf0;
+  background: rgba(18, 104, 223, 0.08);
+}
+
+.sidebar-bottom {
+  display: flex;
+  align-items: center;
+}
+
+.profile-name {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  color: #e8eef8;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-button svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Icône d'image parfaitement centrée */
+.profile-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 0;
+}
+
+.profile-button > svg {
+  display: block;
+  flex: 0 0 19px;
+  width: 19px;
+  height: 19px;
+  margin: 0;
+}
+
+.profile-avatar-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #82b4ff;
+  line-height: 0;
+}
+
+.profile-avatar-letter svg {
+  display: block;
+  flex-shrink: 0;
+}
+.profile-menu-item:not(.logout-item) {
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Kensou AI — réponses sans encadrement */
+.messages {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.messages::-webkit-scrollbar,
+.sidebar-content::-webkit-scrollbar,
+.composer-mode-menu::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.assistant-message {
+  width: 100%;
+  max-width: 100%;
+  margin: 18px 0 28px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #e5eaf2;
+  line-height: 1.75;
+  font-size: 15px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.user-message {
+  max-width: 78%;
+  border-radius: 16px;
+  padding: 11px 15px;
+}
+
+.messages {
+  overscroll-behavior-y: contain;
+}
+
+/* Phrase d'avertissement bien centrée */
+.composer-note {
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  margin-top: 10px;
+  line-height: 1.5;
+  color: #8190a5;
+  font-size: 11px;
+}
+
+/* Animation des trois points */
+.thinking-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  padding: 8px 0;
+  margin: 14px 0 20px;
+}
+
+.thinking-indicator span {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #65a9ff;
+  box-shadow: 0 0 12px rgba(75, 151, 255, 0.25);
+  animation: kensou-thinking 1.15s ease-in-out infinite;
+}
+
+.thinking-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.thinking-indicator span:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.thinking-indicator span:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+@keyframes kensou-thinking {
+  0%, 60%, 100% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-7px) scale(1.15);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thinking-indicator span {
+    animation: none;
+  }
+}
+
+/* Réponses de Kensou : texte plus lisible */
+.assistant-message {
+  font-size: 19px;
+  line-height: 1.8;
+  font-weight: 400;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* Trois points plus petits, en mouvement fluide */
+.thinking-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  margin: 14px 0 20px;
+}
+
+.thinking-indicator span {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: #65a9ff;
+  animation: kensou-wave 0.85s ease-in-out infinite;
+}
+
+.thinking-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.thinking-indicator span:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.thinking-indicator span:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+@keyframes kensou-wave {
+  0%, 100% {
+    transform: translateY(3px);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thinking-indicator span {
+    animation: none;
+  }
+}
+.assistant-message {
+  font-size: 19px;
+  line-height: 1.8;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.assistant-message p {
+  margin: 0 0 16px;
+}
+
+.assistant-message h1,
+.assistant-message h2,
+.assistant-message h3 {
+  margin: 24px 0 12px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.assistant-message ul,
+.assistant-message ol {
+  margin: 10px 0 18px;
+  padding-left: 28px;
+}
+
+.assistant-message li {
+  margin-bottom: 7px;
+}
+
+.assistant-message strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.assistant-message pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 16px;
+  border-radius: 12px;
+  background: #151923;
+}
+
+.assistant-message code {
+  overflow-wrap: anywhere;
+}
+
+.assistant-message p {
+  margin: 0 0 16px;
+}
+
+.assistant-message strong {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.assistant-message em {
+  font-style: italic;
+}
+
+.assistant-message code {
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: #202633;
+  font-family: Consolas, monospace;
+}
+/* =========================================================
+   KENSOU — THÈME NOIR CINÉMATIQUE
+   ========================================================= */
+
+:root {
+  --kensou-black: #030303;
+  --kensou-black-soft: #070707;
+  --kensou-panel: #0a0a0a;
+  --kensou-border: rgba(255, 255, 255, 0.08);
+  --kensou-gold: #d8a83e;
+  --kensou-gold-soft: rgba(216, 168, 62, 0.18);
+  --kensou-text: #f5f5f5;
+  --kensou-muted: #8d8d8d;
+}
+
+/* Fond général */
+html,
+body {
+  background: #030303 !important;
+  color: var(--kensou-text);
+}
+
+/* Application */
+.app {
+  background:
+    radial-gradient(
+      circle at 70% 38%,
+      rgba(216, 168, 62, 0.055),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 45% 100%,
+      rgba(255, 255, 255, 0.025),
+      transparent 35%
+    ),
+    #030303 !important;
+}
+
+/* Zone principale */
+.main-area {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.72)
+    ),
+    #030303 !important;
+}
+
+/* Barre latérale */
+.sidebar {
+  background:
+    linear-gradient(
+      180deg,
+      #080808 0%,
+      #050505 100%
+    ) !important;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+/* Nom Kensou */
+.sidebar-brand-name {
+  color: #ffffff !important;
+}
+
+/* Sous-titre */
+.sidebar-brand-subtitle {
+  color: #777777 !important;
+}
+
+/* Nouvelle conversation */
+.new-chat {
+  background:
+    linear-gradient(
+      135deg,
+      #151515,
+      #0b0b0b
+    ) !important;
+
+  border: 1px solid rgba(216, 168, 62, 0.28) !important;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.35),
+    inset 0 0 20px rgba(216, 168, 62, 0.025) !important;
+}
+
+.new-chat:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #1c1c1c,
+      #101010
+    ) !important;
+
+  border-color: rgba(216, 168, 62, 0.55) !important;
+}
+
+/* Titres sidebar */
+.section-title {
+  color: #777777 !important;
+}
+
+/* Ligne séparatrice */
+.sidebar-separator {
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* Historique vide */
+.empty-history {
+  color: #555555 !important;
+}
+
+/* Barre supérieure */
+.topbar {
+  background: rgba(3, 3, 3, 0.88) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(14px);
+}
+
+/* Boutons de la barre supérieure */
+.topbar-button {
+  color: #8a8a8a !important;
+}
+
+.topbar-button:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Statut en ligne */
+.top-online {
+  color: #888888 !important;
+}
+
+.top-online-dot {
+  background: #45d483 !important;
+  box-shadow: 0 0 10px rgba(69, 212, 131, 0.55) !important;
+}
+
+/* Zone d'accueil */
+.welcome h1 {
+  color: #f5f5f5 !important;
+}
+
+.welcome p {
+  color: #777777 !important;
+}
+
+/* Logo central */
+.top-logo {
+  filter:
+    drop-shadow(0 0 12px rgba(216, 168, 62, 0.16));
+}
+
+/* Logo d'accueil */
+.welcome-logo {
+  filter:
+    drop-shadow(0 0 18px rgba(216, 168, 62, 0.16));
+}
+
+/* Composer */
+.composer {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(14, 14, 14, 0.98),
+      rgba(5, 5, 5, 0.98)
+    ) !important;
+
+  border: 1px solid rgba(216, 168, 62, 0.25) !important;
+
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.55),
+    inset 0 0 25px rgba(216, 168, 62, 0.025) !important;
+}
+
+/* Champ de texte */
+.composer textarea {
+  color: #eeeeee !important;
+}
+
+.composer textarea::placeholder {
+  color: #666666 !important;
+}
+
+/* Boutons du composer */
+.composer-button {
+  color: #8b8b8b !important;
+}
+
+.composer-button:hover {
+  color: #ffffff !important;
+  background: rgba(216, 168, 62, 0.08) !important;
+}
+
+/* Sélecteur de mode */
+.composer-mode-selector {
+  color: #c8c8c8 !important;
+  background: #0c0c0c !important;
+  border-color: rgba(216, 168, 62, 0.22) !important;
+}
+
+.composer-mode-selector:hover,
+.composer-mode-selector[aria-expanded="true"] {
+  color: #ffffff !important;
+  background: #121212 !important;
+  border-color: rgba(216, 168, 62, 0.55) !important;
+}
+
+.composer-mode-icon {
+  color: var(--kensou-gold) !important;
+}
+
+/* Bouton vocal */
+.voice-button {
+  color: #c5c5c5 !important;
+  background: #101010 !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+}
+
+.voice-button:hover {
+  color: #ffffff !important;
+  border-color: rgba(216, 168, 62, 0.4) !important;
+  background: #151515 !important;
+}
+
+/* Bouton envoyer */
+.send-button {
+  color: #111111 !important;
+  background: var(--kensou-gold) !important;
+  box-shadow: 0 0 18px rgba(216, 168, 62, 0.12) !important;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #e6b84c !important;
+}
+
+/* Message utilisateur */
+.user-message {
+  background:
+    linear-gradient(
+      135deg,
+      #191919,
+      #101010
+    ) !important;
+
+  border: 1px solid rgba(216, 168, 62, 0.14);
+}
+
+/* Message Kensou */
+.assistant-message {
+  color: #d8d8d8 !important;
+  background: #090909 !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+/* Disclaimer */
+.composer-note {
+  color: #555555 !important;
+}
+
+/* Menu + */
+.plus-menu,
+.mode-menu,
+.search-panel {
+  background: #0a0a0a !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.65) !important;
+}
+
+/* Options des menus */
+.plus-option,
+.mode-card {
+  background: rgba(255, 255, 255, 0.025) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+.plus-option:hover,
+.mode-card:hover {
+  background: rgba(216, 168, 62, 0.06) !important;
+  border-color: rgba(216, 168, 62, 0.3) !important;
+}
+
+.mode-card.active {
+  background: rgba(216, 168, 62, 0.08) !important;
+  border-color: rgba(216, 168, 62, 0.5) !important;
+}
+
+.mode-card.active .mode-info strong {
+  color: var(--kensou-gold) !important;
+}
+/* =========================================================
+   KENSOU — MONTAGNES + HALO LUNAIRE
+   ========================================================= */
+
+.main-area {
+  position: relative;
+  overflow: hidden;
+  background: #020202 !important;
+}
+
+/* Halo lunaire */
+.main-area::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(216, 168, 62, 0.13) 0%,
+      rgba(216, 168, 62, 0.055) 18%,
+      rgba(216, 168, 62, 0.018) 38%,
+      transparent 68%
+    );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Silhouette des montagnes */
+.main-area::after {
+  content: "";
+  position: absolute;
+  left: -5%;
+  bottom: -80px;
+  width: 110%;
+  height: 48%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #090909 0%,
+      #040404 65%,
+      #020202 100%
+    );
+
+  clip-path: polygon(
+    0% 100%,
+    0% 72%,
+    8% 58%,
+    16% 76%,
+    25% 42%,
+    34% 69%,
+    44% 34%,
+    53% 65%,
+    63% 45%,
+    72% 70%,
+    82% 39%,
+    91% 63%,
+    100% 48%,
+    100% 100%
+  );
+
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Les éléments de l'interface restent au-dessus */
+.main-area > * {
+  position: relative;
+  z-index: 2;
+}
+/* =========================================================
+   KENSOU — FINITION CINÉMATIQUE
+   ========================================================= */
+
+.welcome {
+  position: relative;
+  z-index: 3;
+}
+
+.welcome-logo {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain;
+  margin-bottom: 18px;
+
+  filter:
+    drop-shadow(0 0 8px rgba(216, 168, 62, 0.25))
+    drop-shadow(0 0 24px rgba(216, 168, 62, 0.10));
+}
+
+/* Halo derrière le logo */
+.welcome::before {
+  content: "";
+  position: absolute;
+
+  width: 260px;
+  height: 260px;
+
+  top: -95px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(216, 168, 62, 0.10) 0%,
+      rgba(216, 168, 62, 0.035) 32%,
+      transparent 70%
+    );
+
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Titre */
+.welcome h1 {
+  letter-spacing: -0.8px;
+  text-shadow: 0 0 25px rgba(255, 255, 255, 0.035);
+}
+
+/* Sous-titre */
+.welcome p {
+  margin-top: 12px !important;
+  color: #777777 !important;
+}
+
+/* Montagnes plus visibles */
+.main-area::after {
+  height: 52%;
+  bottom: -60px;
+  opacity: 1;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(13, 13, 13, 0.98),
+      rgba(5, 5, 5, 1)
+    );
+
+  clip-path: polygon(
+    0% 100%,
+    0% 78%,
+    7% 61%,
+    15% 74%,
+    23% 49%,
+    31% 70%,
+    40% 38%,
+    49% 67%,
+    58% 47%,
+    66% 73%,
+    76% 41%,
+    85% 65%,
+    94% 50%,
+    100% 62%,
+    100% 100%
+  );
+}
+
+/* Composer légèrement plus élégant */
+.composer {
+  position: relative;
+  z-index: 5;
+
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.65),
+    0 0 30px rgba(216, 168, 62, 0.035),
+    inset 0 0 25px rgba(255, 255, 255, 0.012) !important;
+}
+/* =========================================================
+   KENSOU — BARRE LATÉRALE
+   ========================================================= */
+
+.sidebar-brand-subtitle {
+  color: #777777 !important;
+  letter-spacing: 0.7px;
+}
+
+/* Nouvelle conversation */
+.new-chat {
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease !important;
+}
+
+.new-chat:hover {
+  transform: translateY(-1px);
+}
+
+/* Divers */
+.section-title-row {
+  min-height: 30px;
+}
+
+.dots-button {
+  color: #777777 !important;
+  background: transparent !important;
+  border: none !important;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease !important;
+}
+
+.dots-button:hover {
+  color: #d8a83e !important;
+  background: rgba(216, 168, 62, 0.08) !important;
+}
+
+/* Menu Divers */
+.divers-menu {
+  margin-top: 6px;
+  padding: 5px;
+
+  background: rgba(10, 10, 10, 0.95) !important;
+  border: 1px solid rgba(216, 168, 62, 0.12) !important;
+  border-radius: 12px;
+
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45);
+}
+
+.divers-menu button {
+  width: 100%;
+  padding: 9px 10px;
+
+  border: none !important;
+  border-radius: 8px;
+
+  background: transparent !important;
+  color: #a0a0a0 !important;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.divers-menu button:hover {
+  background: rgba(216, 168, 62, 0.07) !important;
+  color: #eeeeee !important;
+}
+
+/* Profil */
+.sidebar-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  padding-top: 12px !important;
+}
+
+.profile-button {
+  width: 38px !important;
+  height: 38px !important;
+
+  border-radius: 50% !important;
+
+  background: #0b0b0b !important;
+  border: 1px solid rgba(216, 168, 62, 0.45) !important;
+
+  color: #eeeeee !important;
+  font-weight: 600;
+
+  box-shadow:
+    0 0 15px rgba(216, 168, 62, 0.06);
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.profile-button:hover {
+  background: #141414 !important;
+  border-color: rgba(216, 168, 62, 0.8) !important;
+  transform: scale(1.04);
+}
+
+/* Connexion */
+.login-button {
+  background: #d8a83e !important;
+  color: #111111 !important;
+
+  border: none !important;
+  border-radius: 10px !important;
+
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.login-button:hover {
+  background: #e6b84c !important;
+  transform: translateY(-1px);
+}
+/* =========================================================
+   KENSOU — COMPOSER PREMIUM
+   ========================================================= */
+
+.composer-zone {
+  width: min(860px, calc(100% - 48px)) !important;
+}
+
+/* Conteneur principal */
+.composer {
+  min-height: 70px !important;
+  padding: 8px 9px !important;
+  gap: 8px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(14, 14, 14, 0.98),
+      rgba(5, 5, 5, 0.98)
+    ) !important;
+
+  border: 1px solid rgba(216, 168, 62, 0.28) !important;
+  border-radius: 22px !important;
+
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.65),
+    0 0 30px rgba(216, 168, 62, 0.035) !important;
+}
+
+/* Bouton + */
+.plus-button {
+  color: #bdbdbd !important;
+  background: transparent !important;
+  border: none !important;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.plus-button:hover {
+  color: #d8a83e !important;
+  background: rgba(216, 168, 62, 0.08) !important;
+  transform: scale(1.04);
+}
+
+/* Sélecteur Standard */
+.composer-mode-selector {
+  height: 42px !important;
+  min-width: 112px !important;
+
+  background: #0c0c0c !important;
+  border: 1px solid rgba(216, 168, 62, 0.25) !important;
+  border-radius: 12px !important;
+
+  color: #d0d0d0 !important;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.composer-mode-selector:hover {
+  background: #121212 !important;
+  border-color: rgba(216, 168, 62, 0.55) !important;
+}
+
+.composer-mode-icon {
+  color: #d8a83e !important;
+}
+
+/* Zone de texte */
+.message-input-wrapper textarea,
+.composer textarea {
+  color: #eeeeee !important;
+  font-size: 14px !important;
+}
+
+.message-input-wrapper textarea::placeholder,
+.composer textarea::placeholder {
+  color: #696969 !important;
+}
+
+/* Bouton vocal */
+.voice-button {
+  width: 42px !important;
+  height: 42px !important;
+
+  background: #0d0d0d !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 50% !important;
+
+  color: #aaaaaa !important;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.voice-button:hover {
+  background: #151515 !important;
+  border-color: rgba(216, 168, 62, 0.4) !important;
+  color: #ffffff !important;
+  transform: scale(1.04);
+}
+
+/* Bouton envoyer */
+.send-button {
+  width: 42px !important;
+  height: 42px !important;
+
+  border-radius: 50% !important;
+
+  background: #d8a83e !important;
+  color: #111111 !important;
+
+  box-shadow:
+    0 0 18px rgba(216, 168, 62, 0.12) !important;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #e6b84c !important;
+  transform: scale(1.05);
+  box-shadow:
+    0 0 25px rgba(216, 168, 62, 0.22) !important;
+}
+
+.send-button:disabled {
+  opacity: 0.45;
+}
+
+/* Menu des modes */
+.mode-menu {
+  background: #0a0a0a !important;
+  border: 1px solid rgba(216, 168, 62, 0.18) !important;
+  border-radius: 15px !important;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Cartes de modes */
+.mode-card {
+  background: #0d0d0d !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-radius: 12px !important;
+}
+
+.mode-card:hover {
+  background: #141414 !important;
+  border-color: rgba(216, 168, 62, 0.35) !important;
+}
+
+.mode-card.active {
+  background: rgba(216, 168, 62, 0.07) !important;
+  border-color: rgba(216, 168, 62, 0.55) !important;
+  box-shadow: 0 0 18px rgba(216, 168, 62, 0.06) !important;
+}
+
+/* Disclaimer */
+.composer-note {
+  color: #555555 !important;
+  font-size: 11px !important;
+  margin-top: 9px !important;
+}
+/* =========================================================
+   KENSOU — CONVERSATION PROPRE + ANIMATION
+   ========================================================= */
+
+/* Les réponses de Kensou ne sont plus dans une boîte */
+.assistant-message {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  margin: 0 !important;
+  padding: 8px 0 22px !important;
+
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+
+  color: #dedede !important;
+
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+}
+
+/* Les messages utilisateur restent visuellement distincts,
+   mais sans gros cadre bleu */
+.user-message {
+  max-width: 78% !important;
+
+  background: #151515 !important;
+  border: 1px solid rgba(216, 168, 62, 0.12) !important;
+  border-radius: 16px !important;
+
+  color: #eeeeee !important;
+}
+
+/* =========================================================
+   POINTS "KENSOU RÉFLÉCHIT"
+   ========================================================= */
+
+.thinking-indicator {
+  display: flex !important;
+  align-items: center;
+  gap: 7px;
+
+  height: 28px;
+  padding: 4px 0;
+
+  background: transparent !important;
+  border: none !important;
+}
+
+.thinking-indicator span {
+  display: block;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #d8a83e !important;
+
+  box-shadow:
+    0 0 8px rgba(216, 168, 62, 0.45);
+
+  animation: kensouThinking 1.2s infinite ease-in-out;
+}
+
+.thinking-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.thinking-indicator span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.thinking-indicator span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes kensouThinking {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+
+  30% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   SUPPRESSION DES BLEUS RESTANTS
+   ========================================================= */
+
+/* Recherche */
+.search-panel {
+  background: #090909 !important;
+  border-color: rgba(216, 168, 62, 0.16) !important;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.7) !important;
+}
+
+.search-panel input {
+  background: #050505 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #eeeeee !important;
+}
+
+.search-panel input:focus {
+  border-color: rgba(216, 168, 62, 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(216, 168, 62, 0.06) !important;
+}
+
+.search-result {
+  color: #666666 !important;
+}
+
+/* Menu + */
+.plus-menu {
+  background: #090909 !important;
+  border-color: rgba(216, 168, 62, 0.16) !important;
+}
+
+/* Menu des modes */
+.mode-menu {
+  background: #090909 !important;
+  border-color: rgba(216, 168, 62, 0.16) !important;
+}
+
+/* =========================================================
+   LOGO — AUCUN BLEU AU CLIC
+   ========================================================= */
+
+.top-logo,
+.welcome-logo,
+.sidebar-brand-logo {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.top-logo:focus,
+.top-logo:focus-visible,
+.welcome-logo:focus,
+.welcome-logo:focus-visible,
+.sidebar-brand-logo:focus,
+.sidebar-brand-logo:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Si un bouton contenant le logo reçoit le focus */
+button:focus-visible {
+  outline-color: rgba(216, 168, 62, 0.45) !important;
+}
+
+/* Pas de bleu sur les contrôles */
+button,
+input,
+textarea {
+  accent-color: #d8a83e;
+}
+/* =========================================================
+   KENSOU — TEXTE LÉGÈREMENT PLUS COMPACT
+   ========================================================= */
+
+.user-message {
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+}
+
+.assistant-message {
+  font-size: 15px !important;
+  line-height: 1.75 !important;
+}
+/* =========================================================
+   KENSOU — RÉPONSE FINALE DES CALCULS
+   ========================================================= */
+
+.final-answer {
+  margin-top: 28px;
+  padding: 16px 20px;
+  border: 1px solid rgba(216, 168, 62, 0.65);
+  border-radius: 12px;
+  background: rgba(216, 168, 62, 0.06);
+  color: #f1d27a;
+}
+
+.final-answer-title {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #d8a83e;
+}
+/* ============================= */
+/* PROFIL — STYLE KENSOU */
+/* ============================= */
+
+.profile-card {
+  background: linear-gradient(
+    145deg,
+    rgba(18, 18, 18, 0.96),
+    rgba(8, 8, 8, 0.98)
+  ) !important;
+
+  border: 1px solid rgba(216, 168, 62, 0.45) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+
+  color: #f5f1e8 !important;
+}
+
+.profile-card button {
+  background: rgba(255, 255, 255, 0.025) !important;
+  border: 1px solid rgba(216, 168, 62, 0.35) !important;
+  color: #e8e1d2 !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.profile-card button:hover {
+  background: rgba(216, 168, 62, 0.09) !important;
+  border-color: rgba(216, 168, 62, 0.7) !important;
+  color: #d8a83e !important;
+}
+
+.profile-card svg {
+  color: #d8a83e !important;
+}
+
+.profile-avatar {
+  background: rgba(216, 168, 62, 0.06) !important;
+  border: 1px solid rgba(216, 168, 62, 0.7) !important;
+  color: #d8a83e !important;
+  box-shadow: 0 0 18px rgba(216, 168, 62, 0.08);
+}
+
+.profile-card .profile-name {
+  color: #f5f1e8 !important;
+}
+
+.profile-card .profile-status {
+  color: #8f8b82 !important;
+}
+/* ===== PROFIL KENSOU — NOIR / OR ===== */
+
+.profile-menu {
+  background: linear-gradient(
+    145deg,
+    rgba(20, 20, 20, 0.98),
+    rgba(8, 8, 8, 0.99)
+  ) !important;
+
+  border: 1px solid rgba(216, 168, 62, 0.45) !important;
+  border-radius: 18px !important;
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+
+  color: #f3efe5 !important;
+}
+
+.profile-menu-header {
+  background: transparent !important;
+  border-color: rgba(216, 168, 62, 0.18) !important;
+}
+
+.profile-menu-user strong {
+  color: #f3efe5 !important;
+}
+
+.profile-menu-user span {
+  color: #8f8b82 !important;
+}
+
+.profile-menu-item {
+  background: rgba(255, 255, 255, 0.025) !important;
+  border: 1px solid rgba(216, 168, 62, 0.35) !important;
+  color: #e9e2d5 !important;
+  border-radius: 12px !important;
+  transition: 0.2s ease !important;
+}
+
+.profile-menu-item:hover {
+  background: rgba(216, 168, 62, 0.08) !important;
+  border-color: rgba(216, 168, 62, 0.7) !important;
+  color: #d8a83e !important;
+}
+
+.profile-menu-item svg {
+  color: #d8a83e !important;
+}
+
+.profile-avatar {
+  border-color: rgba(216, 168, 62, 0.65) !important;
+  background: rgba(216, 168, 62, 0.06) !important;
+}
+
+.profile-avatar-letter {
+  background: rgba(216, 168, 62, 0.08) !important;
+  border: 1px solid rgba(216, 168, 62, 0.55) !important;
+  color: #d8a83e !important;
+}
+/* ===== HISTORIQUE DES CONVERSATIONS KENSOU ===== */
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+    max-height: none;
+  overflow: visible;
+  scrollbar-width: none;
+}
+
+.history-list::-webkit-scrollbar {
+  display: none;
+}
+
+.history-item {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #b8b8b8;
+  text-align: left;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.history-item-title {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-item:hover {
+  background: rgba(216, 168, 62, 0.07);
+  border-color: rgba(216, 168, 62, 0.2);
+  color: #ffffff;
+}
+
+.history-item.active {
+  background: rgba(216, 168, 62, 0.1);
+  border-color: rgba(216, 168, 62, 0.35);
+  color: #d8a83e;
+}
+
+.history-item:focus-visible {
+  outline: 1px solid #d8a83e;
+  outline-offset: 2px;
+}
+/* ===== ACTIONS DE L'HISTORIQUE ===== */
+
+.history-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.history-select-button,
+.history-menu-button {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #858585;
+  background: transparent;
+  cursor: pointer;
+}
+
+.history-select-button:hover,
+.history-menu-button:hover,
+.history-select-button.active {
+  color: #d8a83e;
+  background: rgba(216, 168, 62, 0.09);
+  border-color: rgba(216, 168, 62, 0.25);
+}
+
+.history-item-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 9px;
+}
+
+.history-item-row.active {
+  background: rgba(216, 168, 62, 0.08);
+  border-color: rgba(216, 168, 62, 0.2);
+}
+
+.history-item-row .history-item {
+  flex: 1 1 auto;
+  width: 0;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+}
+
+.history-item-row.active .history-item {
+  color: #d8a83e;
+}
+
+.history-item-actions {
+  position: relative;
+  flex: 0 0 auto;
+  padding-right: 4px;
+}
+
+.history-item-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 250;
+  width: 150px;
+  padding: 5px;
+  border: 1px solid rgba(216, 168, 62, 0.25);
+  border-radius: 10px;
+  background: #0b0b0b;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+}
+
+.history-item-menu button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 7px;
+  color: #e0e0e0;
+  background: transparent;
+  text-align: left;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.history-item-menu button:hover {
+  color: #e5b94f;
+  background: rgba(216, 168, 62, 0.09);
+}
+.history-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 17px;
+  width: 17px;
+  height: 17px;
+  margin-left: 8px;
+  border: 1px solid rgba(216, 168, 62, 0.55);
+  border-radius: 50%;
+  background: #0a0a0a;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.history-checkbox:checked {
+  border-color: #d8a83e;
+  background: #d8a83e;
+}
+
+.history-checkbox:checked::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #030303;
+}
+
+.history-checkbox:focus-visible {
+  outline: 2px solid rgba(216, 168, 62, 0.45);
+  outline-offset: 3px;
+}
+
+.history-delete-selected {
+  width: 100%;
+  margin: 8px 0;
+  padding: 9px 11px;
+  border: 1px solid rgba(216, 168, 62, 0.28);
+  border-radius: 9px;
+  color: #e5b94f;
+  background: rgba(216, 168, 62, 0.07);
+  text-align: left;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.history-delete-selected:hover {
+  border-color: rgba(216, 168, 62, 0.55);
+  background: rgba(216, 168, 62, 0.13);
+}
+/* Menu de l'historique visible dans la zone défilante */
+
+.history-item-row {
+  flex-wrap: wrap;
+}
+
+.history-item-actions {
+  position: static;
+}
+
+.history-item-menu {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  z-index: auto;
+  flex: 0 0 calc(100% - 12px);
+  width: calc(100% - 12px);
+  box-sizing: border-box;
+  margin: 4px 6px 8px;
+}
+/* Menu flottant des actions de l'historique */
+
+.history-item-row {
+  position: relative;
+  flex-wrap: nowrap !important;
+  overflow: visible;
+}
+
+.history-item-actions {
+  position: relative !important;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.history-item-menu {
+  position: absolute !important;
+  top: calc(100% + 4px) !important;
+  right: 0 !important;
+  left: auto !important;
+  z-index: 1000;
+  width: 150px !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+  flex: none !important;
+}
+/* Garder le menu ouvert au-dessus des autres conversations */
+.history-item-row {
+  position: relative;
+  z-index: 1;
+}
+
+.history-item-row.menu-open {
+  z-index: 100;
+}
+
+.history-item-menu {
+  z-index: 1000 !important;
+}
+/* Corriger l'affichage du menu de la première conversation */
+
+.history-section {
+  position: relative;
+  z-index: 50;
+  overflow: visible !important;
+}
+
+.history-list {
+  position: relative;
+  overflow: visible !important;
+}
+
+.history-item-row.menu-open {
+  position: relative;
+  z-index: 1000 !important;
+  overflow: visible !important;
+}
+
+.history-item-actions {
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+.history-item-menu {
+  position: absolute !important;
+  top: calc(100% + 4px) !important;
+  right: 0 !important;
+  z-index: 1002 !important;
+}
+/* Corriger les clics sur les options de l'historique */
+
+.history-list {
+  position: relative;
+  isolation: isolate;
+}
+
+.history-item-row {
+  position: relative !important;
+  z-index: auto !important;
+}
+
+.history-item-row:hover {
+  z-index: 50 !important;
+}
+
+.history-item-row.menu-open {
+  z-index: 1000 !important;
+}
+
+.history-item-actions {
+  position: relative !important;
+  z-index: 60 !important;
+  pointer-events: auto !important;
+}
+
+.history-menu-button {
+  position: relative !important;
+  z-index: 61 !important;
+  display: inline-flex !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+/* ===== NAVIGATION DANS LES CONVERSATIONS ===== */
+
+.conversation-layout {
+  width: min(900px, 100%);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.conversation-layout .messages {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.conversation-navigator {
+  flex: 0 0 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+  max-height: calc(100vh - 260px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.conversation-navigator::-webkit-scrollbar {
+  display: none;
+}
+
+.conversation-nav-dot {
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 1px solid rgba(216, 168, 62, 0.55);
+  border-radius: 50%;
+  background: #17130b;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.conversation-nav-dot:hover {
+  transform: scale(1.35);
+  background: #b88b2e;
+}
+
+.conversation-nav-dot.active {
+  border-color: #d8a83e;
+  background: #d8a83e;
+  box-shadow: 0 0 10px rgba(216, 168, 62, 0.3);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 700px) {
+  .conversation-layout {
+    gap: 5px;
+  }
+
+  .conversation-navigator {
+    flex-basis: 20px;
+  }
+}
+/* Navigation de conversation : colonne centrée à gauche */
+
+.conversation-layout {
+  align-items: center;
+}
+
+.conversation-navigator {
+  order: -1;
+  align-self: center;
+  justify-content: center;
+  flex: 0 0 28px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  padding: 12px 0;
+  margin: 0;
+}
+
+.conversation-nav-dot {
+  position: relative;
+  flex: 0 0 10px;
+}
+/* Navigation de conversation : à droite, centrée verticalement */
+
+.conversation-layout {
+  position: relative;
+  align-items: center;
+}
+
+.conversation-navigator {
+  order: 1;
+  position: fixed;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  width: 28px;
+  max-height: 60vh;
+  padding: 12px 0;
+  margin: 0;
+
+  overflow-y: auto;
+  overflow-x: visible;
+  scrollbar-width: none;
+  background: transparent;
+}
+
+.conversation-navigator::-webkit-scrollbar {
+  display: none;
+}
+
+.conversation-nav-dot {
+  position: relative;
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .conversation-navigator {
+    right: 8px;
+  }
+}
+/* Aperçu raffiné des questions dans la navigation */
+
+.conversation-nav-dot {
+  position: relative;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.conversation-nav-dot:hover {
+  transform: scale(1.45);
+  background: #e5b94f;
+  box-shadow: 0 0 12px rgba(216, 168, 62, 0.45);
+}
+
+.conversation-nav-dot::after {
+  content: attr(title);
+  position: absolute;
+  right: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%) translateX(5px);
+
+  width: 260px;
+  max-width: min(260px, 65vw);
+  box-sizing: border-box;
+  padding: 11px 13px;
+
+  border: 1px solid rgba(216, 168, 62, 0.3);
+  border-radius: 11px;
+  background: rgba(12, 12, 12, 0.97);
+  color: #e8e0ce;
+
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0.18s ease;
+}
+
+.conversation-nav-dot:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+.conversation-nav-dot.active {
+  background: #d8a83e;
+  border-color: #f0c65e;
+  box-shadow: 0 0 12px rgba(216, 168, 62, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .conversation-nav-dot,
+  .conversation-nav-dot::after {
+    transition: none;
+  }
+}
+/* Actions à droite de la barre supérieure */
+
+.topbar-right {
+  position: absolute;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-right .topbar-button {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(216, 168, 62, 0.2);
+  border-radius: 10px;
+  color: #b8a16b;
+  background: rgba(216, 168, 62, 0.04);
+}
+
+.topbar-right .topbar-button:hover {
+  color: #f0c65e;
+  border-color: rgba(216, 168, 62, 0.5);
+  background: rgba(216, 168, 62, 0.1);
+}
+
+.topbar-right .top-online {
+  position: static;
+}
+
+@media (max-width: 700px) {
+  .topbar-right {
+    right: 10px;
+    gap: 4px;
+  }
+}
+/* ===== AUTHENTIFICATION — THÈME NOIR ET OR KENSOU ===== */
+
+.auth-overlay {
+  background: rgba(0, 0, 0, 0.86) !important;
+  backdrop-filter: blur(12px);
+}
+
+.auth-box {
+  box-sizing: border-box;
+  border: 1px solid rgba(216, 168, 62, 0.32) !important;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #10100e, #050505) !important;
+  color: #f5f5f5;
+  box-shadow:
+    0 25px 85px rgba(0, 0, 0, 0.75),
+    0 0 35px rgba(216, 168, 62, 0.045);
+}
+
+.auth-box h2 {
+  color: #f5f5f5 !important;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.auth-box p {
+  color: #929087 !important;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.auth-close {
+  color: #8d887b !important;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.auth-close:hover {
+  color: #d8a83e !important;
+  transform: scale(1.08);
+}
+
+.auth-box input {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px;
+  background: #0b0b09 !important;
+  color: #f5f5f5 !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-box input:focus {
+  border-color: rgba(216, 168, 62, 0.7) !important;
+  box-shadow: 0 0 0 3px rgba(216, 168, 62, 0.08);
+}
+
+.auth-box input::placeholder {
+  color: #77756d !important;
+}
+
+.auth-submit {
+  border: 1px solid #d8a83e !important;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #e2b94e, #b88928) !important;
+  color: #10100d !important;
+  font-weight: 700;
+  box-shadow: 0 6px 22px rgba(216, 168, 62, 0.12);
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.auth-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #f0ca66, #d8a83e) !important;
+  box-shadow: 0 8px 26px rgba(216, 168, 62, 0.2);
+  transform: translateY(-1px);
+}
+
+.auth-submit:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.auth-switch {
+  color: #929087 !important;
+}
+
+.auth-switch span,
+.forgot-password {
+  color: #d8a83e !important;
+  transition: color 0.2s ease;
+}
+
+.auth-switch span:hover,
+.forgot-password:hover {
+  color: #f0ca66 !important;
+}
+
+.forgot-password {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Boutons de connexion sociale */
+
+.social-button {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px;
+  background: #0b0b0a !important;
+  color: #dedbd3 !important;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.social-button:hover,
+.google-button:hover,
+.microsoft-button:hover,
+.facebook-button:hover {
+  border-color: rgba(216, 168, 62, 0.45) !important;
+  background: #15140f !important;
+  color: #ffffff !important;
+  transform: none;
+}
+/* Champs de connexion et inscription — thème noir et or */
+
+.auth-box input {
+  color-scheme: dark !important;
+  background-color: #0b0b09 !important;
+  color: #f5f5f5 !important;
+  caret-color: #d8a83e;
+}
+
+/* Empêcher Chrome et Edge de rendre les champs blancs automatiquement */
+
+.auth-box input:-webkit-autofill,
+.auth-box input:-webkit-autofill:hover,
+.auth-box input:-webkit-autofill:focus,
+.auth-box input:-webkit-autofill:active {
+  -webkit-text-fill-color: #f5f5f5 !important;
+  caret-color: #d8a83e;
+  -webkit-box-shadow: 0 0 0 1000px #0b0b09 inset !important;
+  box-shadow: 0 0 0 1000px #0b0b09 inset !important;
+  border: 1px solid rgba(216, 168, 62, 0.35) !important;
+  transition: background-color 9999s ease-out 0s;
+}
+
+.auth-box input:focus {
+  background-color: #10100d !important;
+  border-color: rgba(216, 168, 62, 0.7) !important;
+}
+/* Masquer l'accueil derrière la connexion et l'inscription */
+
+.auth-overlay {
+  background: rgba(3, 3, 3, 0.97) !important;
+  backdrop-filter: blur(12px);
+}
+/* Profil Kensou : toute la zone est cliquable */
+
+.sidebar-bottom .profile-button.profile-trigger {
+  width: 100%;
+  height: auto;
+  min-height: 56px;
+  flex: 1 1 auto;
+  justify-content: flex-start;
+  gap: 11px;
+  padding: 7px 10px;
+  overflow: visible;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.profile-trigger-avatar {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(216, 168, 62, 0.28);
+  border-radius: 50%;
+  color: #d8a83e;
+  background: #0b0b0b;
+}
+
+.profile-trigger-avatar > svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+}
+
+.profile-trigger-avatar .profile-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.sidebar-bottom .profile-button.profile-trigger .profile-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+
+.sidebar-bottom .profile-button.profile-trigger:hover,
+.sidebar-bottom .profile-button.profile-trigger.active {
+  border-color: rgba(216, 168, 62, 0.38);
+  background: rgba(216, 168, 62, 0.055);
+  box-shadow: 0 0 16px rgba(216, 168, 62, 0.045);
+}
+
+.sidebar-bottom .profile-button.profile-trigger:focus-visible {
+  outline: 1px solid #d8a83e;
+  outline-offset: 2px;
+}
+/* Profil Kensou : cadre rectangulaire avec avatar et nom */
+
+.sidebar-bottom .profile-button.profile-trigger {
+  width: 100% !important;
+  min-width: 0;
+  height: auto !important;
+  min-height: 58px;
+  flex: 1 1 auto !important;
+
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+
+  padding: 8px 12px !important;
+  box-sizing: border-box;
+
+  border: 1px solid rgba(216, 168, 62, 0.28) !important;
+  border-radius: 12px !important;
+  background: #0b0b0b !important;
+  box-shadow: none;
+  text-align: left;
+}
+
+.sidebar-bottom .profile-button.profile-trigger:hover,
+.sidebar-bottom .profile-button.profile-trigger.active {
+  border-color: rgba(216, 168, 62, 0.65) !important;
+  border-radius: 12px !important;
+  background: rgba(216, 168, 62, 0.07) !important;
+  box-shadow: 0 0 16px rgba(216, 168, 62, 0.06);
+}
+
+/* Avatar rond à gauche */
+.sidebar-bottom .profile-trigger-avatar {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+/* Nom toujours visible à droite */
+.sidebar-bottom .profile-button.profile-trigger .profile-name {
+  display: block !important;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: #e8e2d5 !important;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Bouton de connexion — profil non connecté */
+
+.sidebar-login-button {
+  width: 100%;
+  min-width: 0;
+  min-height: 58px;
+  flex: 1 1 auto;
+  padding: 12px 16px;
+
+  border: 1px solid #d8a83e;
+  border-radius: 12px;
+  background: rgba(216, 168, 62, 0.12);
+
+  color: #e5b94f;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sidebar-login-button:hover {
+  border-color: #f0c65e;
+  background: rgba(216, 168, 62, 0.2);
+  box-shadow: 0 0 18px rgba(216, 168, 62, 0.1);
+}
+
+.sidebar-login-button:focus-visible {
+  outline: 2px solid #d8a83e;
+  outline-offset: 3px;
+}
+/* Profil Kensou : avatar rond + nom dans un cadre rectangulaire */
+
+.profile-button.profile-trigger {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 58px !important;
+  flex: 1 1 auto !important;
+
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+
+  padding: 8px 12px !important;
+  box-sizing: border-box !important;
+
+  border: 1px solid rgba(216, 168, 62, 0.35) !important;
+  border-radius: 12px !important;
+  background: #0b0b0b !important;
+  overflow: visible !important;
+
+  text-align: left !important;
+}
+
+.profile-button.profile-trigger:hover,
+.profile-button.profile-trigger.active {
+  border-color: #d8a83e !important;
+  border-radius: 12px !important;
+  background: rgba(216, 168, 62, 0.08) !important;
+}
+
+/* Rond de la photo ou de l'icône par défaut */
+
+.profile-trigger-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  flex: 0 0 40px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  overflow: hidden;
+  border: 1px solid rgba(216, 168, 62, 0.4);
+  border-radius: 50% !important;
+  background: #111 !important;
+  color: #d8a83e !important;
+}
+
+.profile-trigger-avatar > svg {
+  display: block !important;
+  width: 21px !important;
+  height: 21px !important;
+  flex: 0 0 21px !important;
+}
+
+/* Nom visible à droite de l'avatar */
+
+.profile-button.profile-trigger .profile-name {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+
+  color: #e8e2d5 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  text-align: left !important;
+
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
