@@ -1,9 +1,22 @@
 "use client";
 
+import {
+  Children,
+  isValidElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+import type {
+  ChangeEvent,
+  KeyboardEvent,
+  ReactNode,
+} from "react";
+import type { ChangeEvent, KeyboardEvent, ReactNode } from "react";
 import { BrowserWhisper } from "browser-whisper";
 import { supabase } from "../lib/supabase";
-import {useEffect , ChangeEvent, KeyboardEvent, useRef, useState } from "react";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -13,7 +26,50 @@ type Message = {
   role: "user" | "assistant";
   content: string;
 };
+const markdownComponents: Components = {
+  a: ({ href, children }) => {
+    if (!href || !/^https?:\/\//i.test(href)) {
+      return <>{children}</>;
+    }
 
+    return (
+      <a
+        className="kensou-link"
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={href}
+      >
+        <svg
+          className="kensou-link-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M10 13.5a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1.7 1.7"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          />
+          <path
+            d="M14 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.7-1.7"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          />
+        </svg>
+        <span className="kensou-link-url">{href}</span>
+      </a>
+    );
+  },
+
+  table: ({ children }) => (
+    <div className="kensou-table-wrap">
+      <table className="kensou-table">{children}</table>
+    </div>
+  ),
+};
 const modes = [
   {
     name: "Standard",
@@ -92,8 +148,84 @@ function ModeIcon({
     </svg>
   );
 }
+function getThinkingLabel(
+  kind: "analysis" | "research" | "coding",
+  seconds: number
+) {
+  const phase = seconds < 3 ? 0 : seconds < 8 ? 1 : 2;
 
+  const labels = {
+    analysis: [
+      "Interprétation analytique en cours…",
+      "Structuration des idées…",
+      "Préparation de la réponse…",
+    ],
+    research: [
+      "Analyse de la demande…",
+      "Organisation des informations utiles…",
+      "Préparation de la synthèse…",
+    ],
+    coding: [
+      "Analyse du problème technique…",
+      "Organisation de la solution…",
+      "Préparation du code…",
+    ],
+  };
+
+  return labels[kind][phase];
+}
+
+function formatDuration(totalSeconds: number) {
+  if (totalSeconds < 60) return `${totalSeconds} s`;
+
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return seconds === 0
+    ? `${minutes} min`
+    : `${minutes} min ${seconds} s`;
+}
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyContent = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch (error) {
+      console.error("Échec de la copie :", error);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      className="kensou-copy-button"
+      onClick={() => void copyContent()}
+      title={copied ? "Copié" : "Copier"}
+      aria-label={copied ? "Contenu copié" : "Copier le contenu"}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="15"
+        height="15"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="8" y="8" width="12" height="12" rx="2" />
+        <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" />
+      </svg>
+      <span>{copied ? "Copié" : "Copier"}</span>
+    </button>
+  );
+}
 export default function Home() {
+
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
 const [authLoading, setAuthLoading] = useState(false);
@@ -165,6 +297,37 @@ const startVoiceInput = () => {
   recognition.start();
 };
   const [isThinking, setIsThinking] = useState(false);
+  
+  useEffect(() => {
+  if (!isThinking) return;
+
+  const timer = window.setInterval(() => {
+    const startedAt = thinkingStartedAtRef.current;
+
+    if (startedAt !== null) {
+      setElapsedThinkingSeconds(
+        Math.floor((Date.now() - startedAt) / 1000)
+      );
+    }
+  }, 1000);
+
+  return () => window.clearInterval(timer);
+}, [isThinking]);
+
+
+  const thinkingStartedAtRef = useRef<number | null>(null);
+
+const [elapsedThinkingSeconds, setElapsedThinkingSeconds] = useState(0);
+const [lastResponseDurationSeconds, setLastResponseDurationSeconds] =
+  useState<number | null>(null);
+
+const [thinkingKind, setThinkingKind] = useState<
+  "analysis" | "research" | "coding"
+>("analysis");
+  const [thinkingPlan, setThinkingPlan] = useState("");
+  const [thinkingStatus, setThinkingStatus] = useState(
+  "Kensou analyse ta question…"
+);
   const [messages, setMessages] = useState<Message[]>([]);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [conversationId, setConversationId] = useState<number | null>(null);
@@ -183,6 +346,21 @@ const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
 const [currentUserName, setCurrentUserName] = useState("Utilisateur");
 const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+   useEffect(() => {
+  if (!isThinking) return;
+
+  const timer = window.setInterval(() => {
+    const startedAt = thinkingStartedAtRef.current;
+
+    if (startedAt !== null) {
+      setElapsedThinkingSeconds(
+        Math.floor((Date.now() - startedAt) / 1000)
+      );
+    }
+  }, 1000);
+
+  return () => window.clearInterval(timer);
+}, [isThinking]);
 
 useEffect(() => {
   const loadUser = async () => {
@@ -198,6 +376,9 @@ setCurrentUserName(
   "Utilisateur"
 );
   };
+
+ 
+  
   
 
   loadUser();
@@ -584,6 +765,39 @@ const deleteSelectedConversations = async () => {
 const sendMessage = async () => {
   const text = message.trim();
   if (!text || isThinking) return;
+  const lowerText = text.toLowerCase();
+
+thinkingStartedAtRef.current = Date.now();
+setElapsedThinkingSeconds(0);
+setLastResponseDurationSeconds(null);
+
+if (/code|bug|erreur|typescript|javascript|programmation/.test(lowerText)) {
+  setThinkingKind("coding");
+} else if (
+  /recherche|source|lien|actualité|récent|compar|étude|tableau/.test(
+    lowerText
+  )
+) {
+  setThinkingKind("research");
+} else {
+  setThinkingKind("analysis");
+}
+  let plan = "";
+
+if (/site|lien|source|recherche|actualité|information récente/.test(lowerText)) {
+  plan = "Identifier les sources pertinentes, examiner les liens disponibles et synthétiser les informations utiles.";
+} else if (/code|programme|bug|erreur|application|développer/.test(lowerText)) {
+  plan = "Comprendre le besoin, examiner la solution technique et organiser les étapes de réalisation.";
+} else if (/budget|entreprise|business|affaire|investissement|stratégie/.test(lowerText)) {
+  plan = "Identifier l'objectif, examiner les options, puis comparer les avantages et les risques.";
+} else if (
+  text.length > 160 ||
+  /explique|analyse|compare|résous|calcule|planifie|conçois/.test(lowerText)
+) {
+  plan = "Comprendre la demande, structurer les étapes utiles et préparer une réponse claire et cohérente.";
+}
+
+setThinkingPlan(plan);
 
   const userMessage: Message = {
     role: "user",
@@ -601,8 +815,9 @@ const sendMessage = async () => {
     },
   ];
 
-  setIsThinking(true);
-  setMessages(initialMessages);
+
+setIsThinking(true);
+setMessages(initialMessages);
   setMessage("");
   setTimeout(() => {
   const messagesContainer = document.querySelector(".messages");
@@ -745,6 +960,15 @@ const sendMessage = async () => {
       },
     ]);
   } finally {
+    const startedAt = thinkingStartedAtRef.current;
+
+if (startedAt !== null) {
+  setLastResponseDurationSeconds(
+    Math.max(0, Math.round((Date.now() - startedAt) / 1000))
+  );
+
+  thinkingStartedAtRef.current = null;
+}
     setIsThinking(false);
   }
 };
@@ -784,6 +1008,7 @@ const sendMessage = async () => {
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}
+components={markdownComponents}
       >
         {content}
       </ReactMarkdown>
@@ -800,6 +1025,7 @@ const sendMessage = async () => {
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}
+        components={markdownComponents}
       >
         {demonstration}
       </ReactMarkdown>
@@ -810,6 +1036,7 @@ const sendMessage = async () => {
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[rehypeKatex]}
+          components={markdownComponents}
         >
           {finalAnswer}
         </ReactMarkdown>
@@ -1367,53 +1594,74 @@ const sendMessage = async () => {
 
     setActiveQuestionIndex(closestQuestion);
   }}
->
-      {messages.map((msg, index) => {
-        const questionIndex = messages
-          .slice(0, index)
-          .filter((previousMessage) => previousMessage.role === "user")
-          .length;
+>{messages.map((msg, index) => {
+  const questionIndex = messages
+    .slice(0, index)
+    .filter((previousMessage) => previousMessage.role === "user")
+    .length;
 
-        return (
-          <div
-            key={index}
-            id={
-              msg.role === "user"
-                ? `question-${questionIndex}`
-                : undefined
-            }
-            className={`message ${
-              msg.role === "user"
-                ? "user-message"
-                : "assistant-message"
-            }`}
-          >
-            {msg.role === "assistant" ? (
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-              >
-                {msg.content}
-              </ReactMarkdown>
-            ) : (
-              msg.content
-            )}
-          </div>
-        );
-      })}
-
-      {isThinking && (
-        <div
-          className="thinking-indicator"
-          role="status"
-          aria-label="Kensou réfléchit"
+  return (
+    <div
+      key={index}
+      id={
+        msg.role === "user"
+          ? `question-${questionIndex}`
+          : undefined
+      }
+      className={`message ${
+        msg.role === "user"
+          ? "user-message"
+          : "assistant-message"
+      }`}
+    >
+      {msg.role === "assistant" ? (
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+          components={markdownComponents}
         >
-          <span />
-          <span />
-          <span />
-        </div>
+          {msg.content}
+        </ReactMarkdown>
+      ) : (
+        msg.content
+      )}
+
+      {msg.role === "assistant" &&
+        index === messages.length - 1 &&
+        lastResponseDurationSeconds !== null &&
+        !isThinking && (
+          <div className="response-duration">
+            Interprétation terminée ·{" "}
+            {formatDuration(lastResponseDurationSeconds)}
+          </div>
+        )}
+    </div>
+  );
+})}
+  {isThinking && (
+  <div
+    className="thinking-wrapper"
+    role="status"
+    aria-live="polite"
+  >
+    <div className="thinking-indicator" aria-hidden="true">
+      <span />
+      <span />
+      <span />
+    </div>
+
+    <div className="thinking-status">
+      {getThinkingLabel(thinkingKind, elapsedThinkingSeconds)}
+      {elapsedThinkingSeconds > 0 && (
+        <span className="thinking-elapsed">
+          · {formatDuration(elapsedThinkingSeconds)}
+        </span>
       )}
     </div>
+  </div>
+)}
+  </div>
+
 
     <nav
       className="conversation-navigator"
