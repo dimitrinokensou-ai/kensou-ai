@@ -833,7 +833,7 @@ const sendMessage = async () => {
             />
             <div>
               <div className="sidebar-brand-name">Kensou AI</div>
-              <div className="sidebar-brand-subtitle">OPEN SOURCE AI</div>
+              <div className="sidebar-brand-subtitle">L’intelligence à vos côtés.</div>
             </div>
           </div>
 

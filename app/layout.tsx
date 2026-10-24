@@ -11,10 +11,9 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 export const metadata: Metadata = {
   title: "Kensou AI",
-  description: "Kensou AI — ton assistant intelligent.",
+  description: "Kensou AI — L’intelligence à vos côtés.",
 };
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
